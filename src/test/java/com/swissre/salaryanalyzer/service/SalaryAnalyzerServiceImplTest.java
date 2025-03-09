@@ -17,12 +17,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class SalaryAnalyzerServiceTest {
+public class SalaryAnalyzerServiceImplTest {
     @Mock
     private CsvParser csvParser;
 
     @InjectMocks
-    private SalaryAnalyzerService salaryAnalyzerService;
+    private SalaryAnalyzerServiceImpl salaryAnalyzerServiceImpl;
 
     @Test
     void testUnderpaidManager() throws IOException {
@@ -52,7 +52,7 @@ public class SalaryAnalyzerServiceTest {
                                         "300,Alice,Hasacat,50000,124").getBytes());
 
         // Perform analysis
-        AnalysisResult result = salaryAnalyzerService.analyze(file);
+        AnalysisResult result = salaryAnalyzerServiceImpl.analyze(file);
 
         // Verify results
         assertEquals(1, result.getUnderpaidManagers().size());
@@ -92,7 +92,7 @@ public class SalaryAnalyzerServiceTest {
                                         "300,Alice,Hasacat,50000,124").getBytes());
 
         // Perform analysis
-        AnalysisResult result = salaryAnalyzerService.analyze(file);
+        AnalysisResult result = salaryAnalyzerServiceImpl.analyze(file);
 
         // Verify results
         assertEquals(1, result.getOverpaidManagers().size());
@@ -142,7 +142,7 @@ public class SalaryAnalyzerServiceTest {
                                         "6,Manager5,Last,130000,5\n" +
                                         "7,Employee,Last,100000,6").getBytes());
 
-        AnalysisResult result = salaryAnalyzerService.analyze(file);
+        AnalysisResult result = salaryAnalyzerServiceImpl.analyze(file);
 
         assertEquals(2, result.getLongReportingLineEmployees().size());
         LongReportingLineEmployee longLineReport = result.getLongReportingLineEmployees().get(0);
@@ -190,7 +190,7 @@ public class SalaryAnalyzerServiceTest {
                                         "305,Brett,Hardleaf,34000,300").getBytes());
 
         // Perform analysis
-        AnalysisResult result = salaryAnalyzerService.analyze(file);
+        AnalysisResult result = salaryAnalyzerServiceImpl.analyze(file);
 
         // Verify results
         assertEquals(1, result.getUnderpaidManagers().size());
@@ -220,7 +220,7 @@ public class SalaryAnalyzerServiceTest {
                                         "1,CEO,Last,100000").getBytes());
 
         // Perform analysis
-        AnalysisResult result = salaryAnalyzerService.analyze(file);
+        AnalysisResult result = salaryAnalyzerServiceImpl.analyze(file);
 
         // Verify results
         assertTrue(result.getUnderpaidManagers().isEmpty());
@@ -268,7 +268,7 @@ public class SalaryAnalyzerServiceTest {
                                         "6,Report4,Last,130000,2").getBytes());
 
         // Perform analysis
-        AnalysisResult result = salaryAnalyzerService.analyze(file);
+        AnalysisResult result = salaryAnalyzerServiceImpl.analyze(file);
 
         // Verify results
         assertTrue(result.getUnderpaidManagers().isEmpty());
@@ -304,7 +304,7 @@ public class SalaryAnalyzerServiceTest {
                                         "3,Report1,Last,100000,2").getBytes());
 
         // Perform analysis
-        AnalysisResult result = salaryAnalyzerService.analyze(file);
+        AnalysisResult result = salaryAnalyzerServiceImpl.analyze(file);
 
         // Verify results
         assertTrue(result.getUnderpaidManagers().isEmpty());

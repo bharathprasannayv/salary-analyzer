@@ -1,7 +1,7 @@
 package com.swissre.salaryanalyzer.controller;
 
 import com.swissre.salaryanalyzer.model.AnalysisResult;
-import com.swissre.salaryanalyzer.service.SalaryAnalyzerService;
+import com.swissre.salaryanalyzer.service.SalaryAnalyzerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ExtendWith(MockitoExtension.class)
 public class SalaryAnalyzerControllerTest {
     @Mock
-    private SalaryAnalyzerService salaryAnalyzerService; // Mocking the service dependency
+    private SalaryAnalyzerServiceImpl salaryAnalyzerServiceImpl; // Mocking the service dependency
 
     @InjectMocks
     private SalaryAnalyzerController controller; // Injecting mocks into the controller
@@ -28,7 +28,7 @@ public class SalaryAnalyzerControllerTest {
         // Given
         MultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "Hello, world".getBytes());
         AnalysisResult expectedResult = new AnalysisResult(); // Assume a valid result object
-        when(salaryAnalyzerService.analyze(file)).thenReturn(expectedResult);
+        when(salaryAnalyzerServiceImpl.analyze(file)).thenReturn(expectedResult);
 
         // When
         AnalysisResult actualResult = controller.analyze(file);
@@ -36,7 +36,7 @@ public class SalaryAnalyzerControllerTest {
         // Then
         assertNotNull(actualResult);
         assertEquals(expectedResult, actualResult);
-        verify(salaryAnalyzerService, times(1)).analyze(file); // Verify service is called once
+        verify(salaryAnalyzerServiceImpl, times(1)).analyze(file); // Verify service is called once
     }
 
     @Test
@@ -50,14 +50,14 @@ public class SalaryAnalyzerControllerTest {
         });
 
         assertEquals("File cannot be empty", exception.getMessage());
-        verifyNoInteractions(salaryAnalyzerService); // Ensure service is not called
+        verifyNoInteractions(salaryAnalyzerServiceImpl); // Ensure service is not called
     }
 
     @Test
     void analyze_ShouldThrowRuntimeException_WhenServiceFails() throws Exception {
         // Given
         MultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "Hello, world".getBytes());
-        when(salaryAnalyzerService.analyze(file)).thenThrow(new RuntimeException("Service error"));
+        when(salaryAnalyzerServiceImpl.analyze(file)).thenThrow(new RuntimeException("Service error"));
 
         // When & Then
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
@@ -65,6 +65,6 @@ public class SalaryAnalyzerControllerTest {
         });
 
         assertEquals("Error processing file", exception.getMessage());
-        verify(salaryAnalyzerService, times(1)).analyze(file); // Ensure service was called once
+        verify(salaryAnalyzerServiceImpl, times(1)).analyze(file); // Ensure service was called once
     }
 }

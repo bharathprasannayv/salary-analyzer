@@ -2,6 +2,7 @@ package com.swissre.salaryanalyzer.controller;
 
 import com.swissre.salaryanalyzer.model.AnalysisResult;
 import com.swissre.salaryanalyzer.service.SalaryAnalyzerService;
+import com.swissre.salaryanalyzer.service.SalaryAnalyzerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
